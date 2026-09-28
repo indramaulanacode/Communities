@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar.jsx'
 import Dashboard from './components/Dashboard.jsx'
 import CommunityPage from './components/CommunityPage.jsx'
 import ChatsPage from './components/ChatsPage.jsx'
+import TaskPage from './components/TaskPage.jsx'
 
 export default function App() {
   const [page, setPage] = useState('dashboard')
@@ -13,6 +14,7 @@ export default function App() {
         <Sidebar activePage={page} onNavigate={setPage} />
         {page === 'community' && <CommunityPage />}
         {page === 'chats' && <ChatsPage />}
+        {page === 'task' && <TaskPage />}
         {page === 'dashboard' && <Dashboard />}
       </div>
     </div>

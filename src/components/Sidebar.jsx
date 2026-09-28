@@ -13,7 +13,7 @@ const navItems = [
   { label: 'Community', icon: MessagesSquare, page: 'community' },
   { label: 'Chats', icon: MessageCircle, page: 'chats' },
   { label: 'People', icon: UserPlus },
-  { label: 'Task', icon: Layers },
+  { label: 'Task', icon: Layers, page: 'task' },
   { label: 'Account Settingt', icon: UserRound },
 ]
 
