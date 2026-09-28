@@ -12,7 +12,7 @@ const navItems = [
   { label: 'Dashboard', icon: LayoutGrid, page: 'dashboard' },
   { label: 'Community', icon: MessagesSquare, page: 'community' },
   { label: 'Chats', icon: MessageCircle, page: 'chats' },
-  { label: 'People', icon: UserPlus },
+  { label: 'People', icon: UserPlus, page: 'people' },
   { label: 'Task', icon: Layers, page: 'task' },
   { label: 'Account Settingt', icon: UserRound },
 ]

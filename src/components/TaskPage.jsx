@@ -21,11 +21,32 @@ import {
   X,
 } from 'lucide-react'
 
-const initialTasks = Array.from({ length: 12 }, (_, i) => ({
-  id: i,
-  title: 'UX Resech Collections Your Text Here',
-  done: i === 2 || i === 5 || i === 7,
-}))
+const initialTasks = [
+  { title: 'UX Resech Collections Your Text Here', done: false },
+  { title: 'UI Reaserh Collections Your Text Here', done: false },
+  { title: 'Community Feed Redesign', done: true },
+  { title: 'Chat Thread Prototype', done: false },
+  { title: 'Task Board Wireframe', done: true },
+  { title: 'Calendar Widget Polish', done: false },
+  { title: 'Onboarding Flow Review', done: false },
+  { title: 'Design Tokens Cleanup', done: true },
+  { title: 'Sprint Retro Notes', done: false },
+  { title: 'Asset Export Batch', done: false },
+  { title: 'Profile Card Layout', done: true },
+  { title: 'Sidebar Navigation States', done: false },
+  { title: 'Drag And Drop Upload Flow', done: false },
+  { title: 'Personal Chats List States', done: true },
+  { title: 'Job Desk Card Content', done: false },
+  { title: 'Showcase Tiles Spacing', done: false },
+  { title: 'Footer Links Audit', done: true },
+  { title: 'Logo Strip Alignment', done: false },
+  { title: 'Status On Progress Detail', done: false },
+  { title: 'Add Your Task Modal Fields', done: true },
+  { title: 'UX Resech Collections Your Text Here', done: false },
+  { title: 'UI Reaserh Collections Your Text Here', done: false },
+  { title: 'UX Resech Collections Your Text Here', done: true },
+  { title: 'UI Reaserh Collections Your Text Here', done: false },
+].map((task, i) => ({ id: i, ...task }))
 
 const taskGroups = Array.from({ length: 10 }, (_, i) => ({ id: i, name: 'Task Group' }))
 

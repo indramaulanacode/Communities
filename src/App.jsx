@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard.jsx'
 import CommunityPage from './components/CommunityPage.jsx'
 import ChatsPage from './components/ChatsPage.jsx'
 import TaskPage from './components/TaskPage.jsx'
+import PeoplePage from './components/PeoplePage.jsx'
 
 export default function App() {
   const [page, setPage] = useState('dashboard')
@@ -15,6 +16,7 @@ export default function App() {
         {page === 'community' && <CommunityPage />}
         {page === 'chats' && <ChatsPage />}
         {page === 'task' && <TaskPage />}
+        {page === 'people' && <PeoplePage onNavigate={setPage} />}
         {page === 'dashboard' && <Dashboard onNavigate={setPage} />}
       </div>
     </div>
