@@ -1,27 +1,52 @@
-import { useState } from 'react'
-import { MoreVertical, Search, Star } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { Check, MoreVertical, Search, Star } from 'lucide-react'
+
+const firstNames = [
+  'Maya', 'Alex', 'Priya', 'Jon', 'Sofia', 'Noah', 'Emma', 'Liam',
+  'Ava', 'Ethan', 'Mia', 'Lucas', 'Zoe', 'Owen', 'Ruby', 'Leo',
+  'Ivy', 'Max', 'Nora', 'Kai', 'Lena', 'Sam', 'Tara', 'Ravi',
+  'Nina', 'Hugo', 'Elle', 'Marco',
+]
+const lastNames = [
+  'Chen', 'Morgan', 'Shah', 'Bell', 'Reyes', 'Williams', 'Davis', 'Park',
+  'Torres', 'Kim', 'Lopez', 'Reed', 'Cole', 'Ford',
+]
+const subtitles = [
+  'Messeger here',
+  'Host · design-feedback',
+  'Moderator',
+  'Shared a resource',
+  'Active 4 min ago',
+]
+const dates = ['06/07/24', '06/08/24', '05/21/24', '06/01/24', '04/17/24']
 
 const makeChats = (start, count) =>
-  Array.from({ length: count }, (_, i) => ({
-    id: start + i,
-    name: 'Place Your Name Here',
-    subtitle: 'Messeger here',
-    date: '06/07/24',
-  }))
+  Array.from({ length: count }, (_, i) => {
+    const n = start + i
+    return {
+      id: n,
+      name: `${firstNames[n % firstNames.length]} ${lastNames[n % lastNames.length]}`,
+      subtitle: subtitles[n % subtitles.length],
+      date: dates[n % dates.length],
+    }
+  })
 
 const MAX_CHATS = 28
 
-export default function PersonalChatsList() {
+export default function PersonalChatsList({ onSelect }) {
   const [activeId, setActiveId] = useState(null)
   const [chats, setChats] = useState(() => makeChats(0, 7))
   const [query, setQuery] = useState('')
-  const [applied, setApplied] = useState('')
+  const [starredOnly, setStarredOnly] = useState(false)
   const [starred, setStarred] = useState(() => new Set())
   const [menuOpen, setMenuOpen] = useState(false)
+  const listRef = useRef(null)
 
-  const visible = applied.trim()
-    ? chats.filter((chat) => chat.name.toLowerCase().includes(applied.trim().toLowerCase()))
-    : chats
+  const q = query.trim().toLowerCase()
+  const visible = chats.filter(
+    (chat) =>
+      (!starredOnly || starred.has(chat.id)) && (!q || chat.name.toLowerCase().includes(q)),
+  )
 
   const toggleStar = (id) =>
     setStarred((cur) => {
@@ -52,12 +77,18 @@ export default function PersonalChatsList() {
             <button
               onClick={() => {
                 setQuery('')
-                setApplied('')
                 setMenuOpen(false)
               }}
               className="rounded-lg px-3 py-2 text-left text-[11px] text-gray-200 transition-colors hover:bg-[#262626]"
             >
               Clear Search
+            </button>
+            <button
+              onClick={() => setStarredOnly((v) => !v)}
+              className="flex items-center justify-between rounded-lg px-3 py-2 text-left text-[11px] text-gray-200 transition-colors hover:bg-[#262626]"
+            >
+              Starred Only
+              {starredOnly && <Check size={12} className="text-[#2e7cf6]" />}
             </button>
             <button
               onClick={() => {
@@ -77,28 +108,31 @@ export default function PersonalChatsList() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && setApplied(query)}
             placeholder="Value"
             className="min-w-0 flex-1 bg-transparent text-xs text-gray-200 placeholder-gray-500 outline-none"
           />
           <Search size={13} className="shrink-0 text-gray-500" />
         </div>
         <button
-          onClick={() => setApplied(query)}
-          className="shrink-0 rounded-full bg-[#2e7cf6] px-6 py-2.5 text-xs font-medium text-white transition-colors hover:bg-[#2568d4]"
+          onClick={() => listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="shrink-0 rounded-full bg-[#2e7cf6] px-6 py-2.5 text-xs font-medium text-white transition-colors hover:bg-[#2568d4] active:scale-[0.97]"
         >
           Search
         </button>
       </div>
 
-      <div className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto pb-1">
+      <div ref={listRef} className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto pb-1">
         {visible.map((chat) => {
           const active = chat.id === activeId
           const isStarred = starred.has(chat.id)
           return (
             <button
               key={chat.id}
-              onClick={() => setActiveId((cur) => (cur === chat.id ? null : chat.id))}
+              onClick={() => {
+                const next = activeId === chat.id ? null : chat.id
+                setActiveId(next)
+                onSelect?.(next ? chat : null)
+              }}
               className={`flex shrink-0 items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
                 active
                   ? 'border-transparent bg-black'

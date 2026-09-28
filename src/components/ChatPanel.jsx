@@ -67,7 +67,7 @@ function MessageBubble({ message }) {
   )
 }
 
-export default function ChatPanel() {
+export default function ChatPanel({ chat }) {
   const [fileOpen, setFileOpen] = useState(false)
 
   return (
@@ -75,9 +75,13 @@ export default function ChatPanel() {
       <header className="flex items-center gap-3 p-4">
         <div className="size-10 shrink-0 rounded-full bg-[#e9e9e9]" />
         <div className="min-w-0">
-          <p className="truncate text-sm text-white">Place Your Name Here</p>
-          <p className="truncate text-[11px] text-gray-400">Messeger here</p>
-          <p className="text-[10px] text-gray-500">06/07/24</p>
+          <p className="truncate text-sm text-white">
+            {chat ? chat.name : 'Place Your Name Here'}
+          </p>
+          <p className="truncate text-[11px] text-gray-400">
+            {chat ? chat.subtitle : 'Messeger here'}
+          </p>
+          <p className="text-[10px] text-gray-500">{chat ? chat.date : '06/07/24'}</p>
         </div>
         <div className="ml-auto flex items-center gap-3">
           <Star size={16} className="text-[#2e7cf6]" />
