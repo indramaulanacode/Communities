@@ -9,29 +9,41 @@ import {
 } from 'lucide-react'
 
 const navItems = [
-  { label: 'Dashboard', icon: LayoutGrid },
-  { label: 'Community', icon: MessagesSquare },
-  { label: 'Chats', icon: MessageCircle },
+  { label: 'Dashboard', icon: LayoutGrid, page: 'dashboard' },
+  { label: 'Community', icon: MessagesSquare, page: 'community' },
+  { label: 'Chats', icon: MessageCircle, page: 'chats' },
   { label: 'People', icon: UserPlus },
   { label: 'Task', icon: Layers },
   { label: 'Account Settingt', icon: UserRound },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ activePage, onNavigate }) {
   return (
     <aside className="flex w-72 shrink-0 flex-col rounded-2xl bg-[#161616] p-5">
       <h1 className="px-1 text-lg font-semibold text-white">Chatcommunity</h1>
 
       <nav className="mt-6 flex flex-col gap-3">
-        {navItems.map(({ label, icon: Icon }) => (
-          <button
-            key={label}
-            className="flex items-center gap-3 rounded-lg bg-[#1f1f1f] px-4 py-3 text-left text-sm text-gray-200 transition-colors hover:bg-[#262626]"
-          >
-            <Icon size={16} strokeWidth={1.75} className="text-gray-300" />
-            {label}
-          </button>
-        ))}
+        {navItems.map(({ label, icon: Icon, page }) => {
+          const active = page === activePage
+          return (
+            <button
+              key={label}
+              onClick={() => page && onNavigate(page)}
+              className={`flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm transition-colors ${
+                active
+                  ? 'bg-[#0d0d0d] text-[#2e7cf6]'
+                  : 'bg-[#1f1f1f] text-gray-200 hover:bg-[#262626]'
+              }`}
+            >
+              <Icon
+                size={16}
+                strokeWidth={1.75}
+                className={active ? 'text-[#2e7cf6]' : 'text-gray-300'}
+              />
+              {label}
+            </button>
+          )
+        })}
       </nav>
 
       <div className="mt-6 rounded-xl bg-[#1f1f1f] p-4">

@@ -1,14 +1,19 @@
+import { useState } from 'react'
 import Sidebar from './components/Sidebar.jsx'
-import CommunityList from './components/CommunityList.jsx'
-import ChatPanel from './components/ChatPanel.jsx'
+import Dashboard from './components/Dashboard.jsx'
+import CommunityPage from './components/CommunityPage.jsx'
+import ChatsPage from './components/ChatsPage.jsx'
 
 export default function App() {
+  const [page, setPage] = useState('dashboard')
+
   return (
     <div className="h-screen bg-[#0a0a0a] p-3 font-sans antialiased">
-      <div className="flex h-full gap-3">
-        <Sidebar />
-        <CommunityList />
-        <ChatPanel />
+      <div className="flex h-full gap-4">
+        <Sidebar activePage={page} onNavigate={setPage} />
+        {page === 'community' && <CommunityPage />}
+        {page === 'chats' && <ChatsPage />}
+        {page === 'dashboard' && <Dashboard />}
       </div>
     </div>
   )
