@@ -46,7 +46,14 @@ export default function Sidebar({ activePage, onNavigate }) {
         })}
       </nav>
 
-      <div className="mt-6 rounded-xl bg-[#1f1f1f] p-4">
+      <button
+        onClick={() => onNavigate('profile')}
+        className={`mt-6 rounded-xl p-4 text-left transition-colors ${
+          activePage === 'profile'
+            ? 'bg-[#1f1f1f] ring-1 ring-[#2e7cf6]'
+            : 'bg-[#1f1f1f] hover:bg-[#262626]'
+        }`}
+      >
         <div className="flex items-center gap-3">
           <div className="size-10 shrink-0 rounded-full bg-[#e9e9e9]" />
           <div className="min-w-0">
@@ -61,7 +68,7 @@ export default function Sidebar({ activePage, onNavigate }) {
         <p className="mt-1 text-[11px] text-gray-300">
           Follower : 500 <span className="ml-3">Following : 100</span>
         </p>
-      </div>
+      </button>
 
       <div className="mt-4 flex flex-col gap-3">
         <button className="w-full rounded-md bg-[#2e7cf6] py-2 text-sm font-medium text-white transition-colors hover:bg-[#2568d4]">
