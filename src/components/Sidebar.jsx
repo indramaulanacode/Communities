@@ -7,6 +7,7 @@ import {
   UserRound,
   Zap,
 } from 'lucide-react'
+import { useState } from 'react'
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutGrid, page: 'dashboard' },
@@ -14,22 +15,25 @@ const navItems = [
   { label: 'Chats', icon: MessageCircle, page: 'chats' },
   { label: 'People', icon: UserPlus, page: 'people' },
   { label: 'Task', icon: Layers, page: 'task' },
-  { label: 'Account Settingt', icon: UserRound },
+  { label: 'Account Settingt', icon: UserRound, page: 'profile' },
 ]
 
 export default function Sidebar({ activePage, onNavigate }) {
+  const [accountPressed, setAccountPressed] = useState(false)
+  const [signOutPressed, setSignOutPressed] = useState(false)
+
   return (
-    <aside className="flex w-72 shrink-0 flex-col rounded-2xl bg-[#161616] p-5">
+    <aside className="flex w-full shrink-0 flex-col rounded-2xl bg-[#161616] p-5 lg:min-h-0 lg:w-72 lg:overflow-y-auto">
       <h1 className="px-1 text-lg font-semibold text-white">Chatcommunity</h1>
 
-      <nav className="mt-6 flex flex-col gap-3">
+      <nav className="mt-6 flex gap-3 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
         {navItems.map(({ label, icon: Icon, page }) => {
           const active = page === activePage
           return (
             <button
               key={label}
               onClick={() => page && onNavigate(page)}
-              className={`flex items-center gap-3 rounded-lg px-4 py-3 text-left text-sm transition-colors ${
+              className={`flex shrink-0 items-center gap-3 whitespace-nowrap rounded-lg px-4 py-3 text-left text-sm transition-colors lg:shrink ${
                 active
                   ? 'bg-[#0d0d0d] text-[#2e7cf6]'
                   : 'bg-[#1f1f1f] text-gray-200 hover:bg-[#262626]'
@@ -48,7 +52,7 @@ export default function Sidebar({ activePage, onNavigate }) {
 
       <button
         onClick={() => onNavigate('profile')}
-        className={`mt-6 rounded-xl p-4 text-left transition-colors ${
+        className={`mt-6 hidden rounded-xl p-4 text-left transition-colors lg:block ${
           activePage === 'profile'
             ? 'bg-[#1f1f1f] ring-1 ring-[#2e7cf6]'
             : 'bg-[#1f1f1f] hover:bg-[#262626]'
@@ -70,11 +74,23 @@ export default function Sidebar({ activePage, onNavigate }) {
         </p>
       </button>
 
-      <div className="mt-4 flex flex-col gap-3">
-        <button className="w-full rounded-md bg-[#2e7cf6] py-2 text-sm font-medium text-white transition-colors hover:bg-[#2568d4]">
+      <div className="mt-4 flex flex-row gap-3 lg:flex-col">
+        <button
+          onClick={() => setAccountPressed((p) => !p)}
+          aria-pressed={accountPressed}
+          className={`w-full rounded-md py-2 text-sm font-medium text-white transition-colors ${
+            accountPressed ? 'bg-[#1d4ed8] ring-1 ring-[#2e7cf6]' : 'bg-[#2e7cf6] hover:bg-[#2568d4]'
+          }`}
+        >
           Add Account
         </button>
-        <button className="w-full rounded-md bg-[#f4436c] py-2 text-sm font-medium text-white transition-colors hover:bg-[#d93a60]">
+        <button
+          onClick={() => setSignOutPressed((p) => !p)}
+          aria-pressed={signOutPressed}
+          className={`w-full rounded-md py-2 text-sm font-medium text-white transition-colors ${
+            signOutPressed ? 'bg-[#a3264a] ring-1 ring-[#f4436c]' : 'bg-[#f4436c] hover:bg-[#d93a60]'
+          }`}
+        >
           Sign Out
         </button>
       </div>

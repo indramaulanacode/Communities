@@ -173,7 +173,7 @@ function CommunityPanel({ onNavigate }) {
   const visibleOnline = onlineNow.filter((o) => o.name.toLowerCase().includes(q))
 
   return (
-    <section className="flex w-[24rem] shrink-0 flex-col rounded-2xl bg-[#121212] p-4">
+    <section className="flex min-h-0 w-full shrink-0 flex-col rounded-2xl bg-[#121212] p-4 lg:w-[24rem]">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[9px] uppercase tracking-widest text-gray-500">Community</p>
@@ -229,74 +229,76 @@ function CommunityPanel({ onNavigate }) {
         </button>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-[9px] uppercase tracking-widest text-gray-500">Channels</span>
-        <button
-          onClick={() =>
-            setChannels((cur) => [
-              ...cur,
-              {
-                id: `new-${cur.length}`,
-                name: `new-channel-${cur.length - 3}`,
-                icon: Hash,
-              },
-            ])
-          }
-          className="text-gray-400 transition-colors hover:text-white"
-        >
-          <Hash size={12} className="rotate-45" />
-        </button>
-      </div>
-      <div className="mt-2 flex flex-col gap-1">
-        {visibleChannels.map((channel) => {
-          const Icon = channel.icon
-          const active = channel.id === activeChannel
-          return (
-            <button
-              key={channel.id}
-              onClick={() => setActiveChannel(channel.id)}
-              className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-left transition-colors ${
-                active ? 'bg-[#1e1e1e] text-white' : 'text-gray-400 hover:bg-[#191919]'
-              }`}
-            >
-              <Icon size={13} className={active ? 'text-[#2e7cf6]' : 'text-gray-500'} />
-              <span className="min-w-0 flex-1 truncate text-[11px]">{channel.name}</span>
-              {channel.badge && (
-                <span className="shrink-0 rounded-full bg-[#2e7cf6] px-1.5 py-0.5 text-[9px] text-white">
-                  {channel.badge}
+      <div className="mt-4 flex min-h-0 flex-1 flex-col overflow-y-auto">
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] uppercase tracking-widest text-gray-500">Channels</span>
+          <button
+            onClick={() =>
+              setChannels((cur) => [
+                ...cur,
+                {
+                  id: `new-${cur.length}`,
+                  name: `new-channel-${cur.length - 3}`,
+                  icon: Hash,
+                },
+              ])
+            }
+            className="text-gray-400 transition-colors hover:text-white"
+          >
+            <Hash size={12} className="rotate-45" />
+          </button>
+        </div>
+        <div className="mt-2 flex flex-col gap-1">
+          {visibleChannels.map((channel) => {
+            const Icon = channel.icon
+            const active = channel.id === activeChannel
+            return (
+              <button
+                key={channel.id}
+                onClick={() => setActiveChannel(channel.id)}
+                className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-left transition-colors ${
+                  active ? 'bg-[#1e1e1e] text-white' : 'text-gray-400 hover:bg-[#191919]'
+                }`}
+              >
+                <Icon size={13} className={active ? 'text-[#2e7cf6]' : 'text-gray-500'} />
+                <span className="min-w-0 flex-1 truncate text-[11px]">{channel.name}</span>
+                {channel.badge && (
+                  <span className="shrink-0 rounded-full bg-[#2e7cf6] px-1.5 py-0.5 text-[9px] text-white">
+                    {channel.badge}
+                  </span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="mt-4 flex items-center justify-between">
+          <span className="text-[9px] uppercase tracking-widest text-gray-500">Online now</span>
+          <span className="text-[10px] text-gray-500">82</span>
+        </div>
+        <div className="mt-2 flex flex-col gap-1">
+          {visibleOnline.map((person) => {
+            const active = person.id === activeOnline
+            return (
+              <button
+                key={person.id}
+                onClick={() => setActiveOnline((cur) => (cur === person.id ? null : person.id))}
+                className={`flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-left transition-colors ${
+                  active ? 'bg-[#1e1e1e]' : 'hover:bg-[#191919]'
+                }`}
+              >
+                <span className={`size-6 shrink-0 rounded-full ${person.color}`} />
+                <span className="min-w-0 flex-1 truncate text-[11px] text-gray-200">
+                  {person.name}
                 </span>
-              )}
-            </button>
-          )
-        })}
+                <span className="shrink-0 text-[9px] text-gray-500">{person.role}</span>
+              </button>
+            )
+          })}
+        </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-[9px] uppercase tracking-widest text-gray-500">Online now</span>
-        <span className="text-[10px] text-gray-500">82</span>
-      </div>
-      <div className="mt-2 flex flex-col gap-1">
-        {visibleOnline.map((person) => {
-          const active = person.id === activeOnline
-          return (
-            <button
-              key={person.id}
-              onClick={() => setActiveOnline((cur) => (cur === person.id ? null : person.id))}
-              className={`flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-left transition-colors ${
-                active ? 'bg-[#1e1e1e]' : 'hover:bg-[#191919]'
-              }`}
-            >
-              <span className={`size-6 shrink-0 rounded-full ${person.color}`} />
-              <span className="min-w-0 flex-1 truncate text-[11px] text-gray-200">
-                {person.name}
-              </span>
-              <span className="shrink-0 text-[9px] text-gray-500">{person.role}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      <div className="mt-auto flex items-center justify-between gap-3 border-t border-[#232323] pt-4">
+      <div className="mt-4 flex items-center justify-between gap-3 border-t border-[#232323] pt-4">
         <div className="min-w-0">
           <p className="text-[11px] text-white">Grow the conversation</p>
           <p className="truncate text-[9px] text-gray-500">
@@ -343,7 +345,7 @@ function MembersPanel() {
   const togglePressed = (key) => setPressed((cur) => (cur === key ? null : key))
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col rounded-2xl bg-[#121212] p-5">
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col rounded-2xl bg-[#121212] p-5">
       <div className="flex items-center justify-between">
         <button
           onClick={() => togglePressed('back')}
@@ -558,7 +560,7 @@ function MembersPanel() {
             <span className="text-[10px] text-gray-500">Sort: Recently active</span>
           </div>
 
-          <div className="mt-3 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pb-1">
+          <div className="mt-3 flex min-h-0 max-h-96 flex-1 flex-col gap-2 overflow-y-auto pb-1 lg:max-h-none">
             {visible.map((member) => {
               const active = member.id === activeMember
               return (
@@ -669,7 +671,7 @@ function MembersPanel() {
 
 export default function PeoplePage({ onNavigate }) {
   return (
-    <div className="flex min-w-0 flex-1 gap-4">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto lg:flex-row lg:overflow-visible">
       <CommunityPanel onNavigate={onNavigate} />
       <MembersPanel />
     </div>

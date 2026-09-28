@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronUp, Folder, MoreVertical, Paperclip, Star } from 'lucide-react'
 
-const messages = [
+const initialMessages = [
   {
     id: 1,
     sender: 'John Doe Indra',
@@ -69,9 +69,26 @@ function MessageBubble({ message }) {
 
 export default function ChatPanel({ chat }) {
   const [fileOpen, setFileOpen] = useState(false)
+  const [messages, setMessages] = useState(initialMessages)
+  const [draft, setDraft] = useState('')
+  const [starred, setStarred] = useState(false)
+  const [menuPressed, setMenuPressed] = useState(false)
+  const listRef = useRef(null)
+
+  useEffect(() => {
+    const list = listRef.current
+    if (list) list.scrollTop = list.scrollHeight
+  }, [messages])
+
+  const send = () => {
+    const text = draft.trim()
+    if (!text) return
+    setMessages((cur) => [...cur, { id: `own-${cur.length + 1}`, own: true, text }])
+    setDraft('')
+  }
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col rounded-2xl bg-[#121212]">
+    <section className="flex min-h-[28rem] min-w-0 flex-1 flex-col rounded-2xl bg-[#121212] lg:min-h-0">
       <header className="flex items-center gap-3 p-4">
         <div className="size-10 shrink-0 rounded-full bg-[#e9e9e9]" />
         <div className="min-w-0">
@@ -84,13 +101,31 @@ export default function ChatPanel({ chat }) {
           <p className="text-[10px] text-gray-500">{chat ? chat.date : '06/07/24'}</p>
         </div>
         <div className="ml-auto flex items-center gap-3">
-          <Star size={16} className="text-[#2e7cf6]" />
-          <MoreVertical size={16} className="text-gray-400" />
+          <button
+            onClick={() => setStarred((s) => !s)}
+            aria-pressed={starred}
+            className="transition-colors hover:text-[#5ea2ff]"
+          >
+            <Star
+              size={16}
+              fill={starred ? 'currentColor' : 'none'}
+              className="text-[#2e7cf6]"
+            />
+          </button>
+          <button
+            onClick={() => setMenuPressed((p) => !p)}
+            aria-pressed={menuPressed}
+            className={`rounded-md p-1 transition-colors ${
+              menuPressed ? 'bg-[#262626] text-white' : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            <MoreVertical size={16} />
+          </button>
         </div>
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col">
-        <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 py-4">
+        <div ref={listRef} className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-6 py-4">
           {messages.map((message) =>
             message.divider ? (
               <p key={message.id} className="text-center text-[10px] text-gray-500">
@@ -126,6 +161,9 @@ export default function ChatPanel({ chat }) {
         <div className="flex items-center gap-3 rounded-xl bg-[#1e1e1e] px-5 py-3">
           <input
             type="text"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && send()}
             placeholder="Write a messege......."
             className="min-w-0 flex-1 bg-transparent text-sm text-gray-200 placeholder-gray-500 outline-none"
           />
@@ -135,7 +173,11 @@ export default function ChatPanel({ chat }) {
           >
             <Paperclip size={16} />
           </button>
-          <button className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#7c4dff] text-white transition-colors hover:bg-[#6a3fe0]">
+          <button
+            onClick={send}
+            aria-label="Send message"
+            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#7c4dff] text-white transition-colors hover:bg-[#6a3fe0]"
+          >
             <ChevronUp size={16} />
           </button>
         </div>

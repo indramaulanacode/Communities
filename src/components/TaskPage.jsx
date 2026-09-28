@@ -186,7 +186,7 @@ function TaskGroups({ onAdd }) {
   const [activeId, setActiveId] = useState(null)
   const [menuPressed, setMenuPressed] = useState(false)
   return (
-    <section className="flex w-[18rem] shrink-0 flex-col rounded-2xl bg-[#121212] p-4">
+    <section className="flex min-h-0 w-full shrink-0 flex-col rounded-2xl bg-[#121212] p-4 lg:w-[16rem]">
       <div className="flex items-center justify-between rounded-xl bg-[#191919] px-4 py-3">
         <span className="text-sm text-white">Task Groups</span>
         <span className="flex items-center gap-2 text-gray-400">
@@ -204,7 +204,7 @@ function TaskGroups({ onAdd }) {
         </span>
       </div>
 
-      <div className="mt-3 flex flex-1 flex-col gap-2 overflow-y-auto pb-1">
+      <div className="mt-3 flex min-h-0 max-h-72 flex-1 flex-col gap-2 overflow-y-auto pb-1 lg:max-h-none">
         {taskGroups.map((group) => (
           <button
             key={group.id}
@@ -233,7 +233,7 @@ function YourTaskList({ tasks, onAdd, onSelectTask, onToggleDone, onSetAllDone, 
   const allDone = tasks.length > 0 && tasks.every((task) => task.done)
 
   return (
-    <section className="flex w-[24rem] shrink-0 flex-col rounded-2xl bg-[#121212] p-4">
+    <section className="flex min-h-0 w-full shrink-0 flex-col rounded-2xl bg-[#121212] p-4 lg:w-[24rem]">
       <p className="text-center text-sm text-white">Your Task</p>
 
       <div className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#0a0a0a] px-4 py-2.5">
@@ -277,7 +277,7 @@ function YourTaskList({ tasks, onAdd, onSelectTask, onToggleDone, onSetAllDone, 
         </button>
       </div>
 
-      <div className="mt-2 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pb-1">
+      <div className="mt-2 flex min-h-0 max-h-96 flex-1 flex-col gap-1 overflow-y-auto pb-1 lg:max-h-none">
         {visible.map((task) => {
           const active = task.id === activeId
           return (
@@ -366,7 +366,7 @@ function TaskDetail({ task, onFinish, onDelete }) {
   const done = task?.done ?? false
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto rounded-2xl bg-[#121212] p-5">
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto rounded-2xl bg-[#121212] p-5">
       <div className="flex items-center gap-2">
         {done ? (
           <Check size={18} className="text-[#22c55e]" />
@@ -548,7 +548,7 @@ export default function TaskPage() {
   const selectedTask = tasks.find((task) => task.id === selectedId) ?? null
 
   return (
-    <div className="relative flex min-w-0 flex-1 gap-4">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto lg:flex-row lg:overflow-visible">
       <TaskGroups onAdd={() => setModalOpen(true)} />
       <YourTaskList
         tasks={tasks}

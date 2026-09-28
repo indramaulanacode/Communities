@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import {
-  ChevronDown,
-  Diamond,
   Globe,
   Layers,
   Lock,
@@ -21,12 +19,6 @@ const sections = [
 ]
 
 const brandColors = ['#7c4dff', '#2e7cf6', '#f97316', '#22c55e', '#a855f7']
-
-const footerColumns = [
-  { title: 'Get Started', links: ['Service', 'Contact Us', 'Affiliate Program', 'About Us'] },
-  { title: 'Get Started', links: ['Dashboard', 'Platform', 'Workout Library', 'App Design'] },
-  { title: 'Get Started', links: ['About Us'] },
-]
 
 const defaultProfile = {
   name: 'John Doe Gym',
@@ -132,7 +124,7 @@ function ProfilePanel({ profile }) {
         <p className="mt-2 text-[10px] leading-relaxed text-gray-400">{profile.bio}</p>
       </div>
 
-      <div className="mt-3 grid w-full grid-cols-2 gap-3">
+      <div className="mt-3 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="flex items-center gap-2 rounded-lg bg-[#191919] px-3 py-2.5">
           <MapPin size={11} className="shrink-0 text-[#2e7cf6]" />
           <span className="whitespace-nowrap text-[10px] text-gray-500">Locations :</span>
@@ -272,72 +264,13 @@ function AppearancePanel() {
   )
 }
 
-function FooterCard() {
-  const [open, setOpen] = useState(() => new Set())
-  const [activeLink, setActiveLink] = useState(null)
-
-  const toggleColumn = (i) =>
-    setOpen((cur) => {
-      const next = new Set(cur)
-      if (next.has(i)) next.delete(i)
-      else next.add(i)
-      return next
-    })
-
-  return (
-    <div className="flex flex-col gap-6 p-6">
-      <div>
-        <p className="flex items-center gap-2 text-lg font-bold text-white">
-          <Diamond size={20} className="text-[#f97316]" />
-          Bio Community
-        </p>
-        <p className="mt-3 text-[11px] leading-relaxed text-gray-400">
-          Ease of shopping is our main focus. With powerful search features and customizable
-          filters, you can easily find the products you are looking for.
-        </p>
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        {footerColumns.map((col, i) => (
-          <div key={i} className="flex flex-col gap-2">
-            <button
-              onClick={() => toggleColumn(i)}
-              className="flex items-center justify-between rounded-lg bg-[#191919] px-3 py-2.5 text-[11px] text-gray-200 transition-colors hover:bg-[#1f1f1f]"
-              aria-expanded={open.has(i)}
-            >
-              {col.title}
-              <ChevronDown
-                size={13}
-                className={`text-gray-400 transition-transform ${open.has(i) ? 'rotate-180' : ''}`}
-              />
-            </button>
-            {open.has(i) &&
-              col.links.map((link) => (
-                <button
-                  key={link}
-                  onClick={() => setActiveLink(`${i}-${link}`)}
-                  className={`rounded-lg px-3 py-2 text-left text-[10px] transition-colors ${
-                    activeLink === `${i}-${link}`
-                      ? 'bg-[#262626] text-[#2e7cf6]'
-                      : 'text-gray-400 hover:bg-[#191919] hover:text-gray-200'
-                  }`}
-                >
-                  {link}
-                </button>
-              ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export default function ProfilePage() {
   const [section, setSection] = useState('profile')
   const [profile, setProfile] = useState(defaultProfile)
 
   return (
-    <div className="flex min-w-0 flex-1 gap-4">
-      <section className="flex w-[22rem] shrink-0 flex-col rounded-2xl bg-[#121212] p-4">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto lg:flex-row lg:overflow-visible">
+      <section className="flex min-h-0 w-full shrink-0 flex-col rounded-2xl bg-[#121212] p-4 lg:w-[24rem]">
         <p className="flex items-center gap-2 px-1 text-sm text-white">
           <Settings size={15} className="text-gray-300" />
           Account Setting
@@ -364,7 +297,7 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <section className="flex min-w-0 flex-1 flex-col gap-4 overflow-y-auto rounded-2xl bg-[#121212]">
+      <section className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto rounded-2xl bg-[#121212]">
         <div className="rounded-2xl bg-[#121212]">
           {section === 'profile' && <ProfilePanel profile={profile} />}
           {section === 'info' && (
@@ -378,9 +311,6 @@ export default function ProfilePage() {
           )}
           {section === 'security' && <SecurityPanel />}
           {section === 'appearance' && <AppearancePanel />}
-        </div>
-        <div className="rounded-2xl bg-[#121212]">
-          <FooterCard />
         </div>
       </section>
     </div>

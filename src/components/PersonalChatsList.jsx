@@ -59,7 +59,7 @@ export default function PersonalChatsList({ onSelect }) {
   const canLoadMore = chats.length < MAX_CHATS
 
   return (
-    <section className="flex w-[26rem] shrink-0 flex-col rounded-2xl bg-[#121212] p-4">
+    <section className="flex min-h-0 w-full shrink-0 flex-col rounded-2xl bg-[#121212] p-4 lg:w-[24rem]">
       <div className="relative flex items-center justify-between rounded-xl bg-[#191919] px-4 py-3.5">
         <span className="text-sm text-white">Personal Chats</span>
         <button
@@ -121,7 +121,10 @@ export default function PersonalChatsList({ onSelect }) {
         </button>
       </div>
 
-      <div ref={listRef} className="mt-3 flex flex-1 flex-col gap-3 overflow-y-auto pb-1">
+      <div
+        ref={listRef}
+        className="mt-3 flex min-h-0 max-h-96 flex-1 flex-col gap-3 overflow-y-auto pb-1 lg:max-h-none"
+      >
         {visible.map((chat) => {
           const active = chat.id === activeId
           const isStarred = starred.has(chat.id)
