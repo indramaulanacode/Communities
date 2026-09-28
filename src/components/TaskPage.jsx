@@ -160,14 +160,35 @@ function YourTaskList({ tasks, onAdd }) {
         {tasks.map((task) => {
           const active = task.id === activeId
           return (
-            <button
+            <div
               key={task.id}
+              role="button"
+              tabIndex={0}
               onClick={() => setActiveId((cur) => (cur === task.id ? null : task.id))}
-              className={`flex shrink-0 items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors ${
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  setActiveId((cur) => (cur === task.id ? null : task.id))
+                }
+              }}
+              className={`flex shrink-0 cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors ${
                 active ? 'bg-[#191919]' : 'hover:bg-[#161616]'
               }`}
             >
-              <span className="size-3.5 shrink-0 rounded-sm border border-[#3a3a3a]" />
+              <button
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setActiveId(task.id)
+                }}
+                className={`flex size-3.5 shrink-0 items-center justify-center rounded-sm border transition-colors ${
+                  active ? 'border-[#2e7cf6]' : 'border-[#3a3a3a] hover:border-gray-400'
+                }`}
+              >
+                {active && <span className="size-1.5 rounded-full bg-[#2e7cf6]" />}
+              </button>
               {task.done ? (
                 <Check size={14} className="shrink-0 text-[#2e7cf6]" />
               ) : (
@@ -186,7 +207,7 @@ function YourTaskList({ tasks, onAdd }) {
               <span className="shrink-0 rounded-lg bg-[#1f1f1f] p-2 text-gray-300">
                 <ArrowUpRight size={12} />
               </span>
-            </button>
+            </div>
           )
         })}
       </div>

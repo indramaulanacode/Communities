@@ -1,4 +1,5 @@
-import { ChevronUp, MoreVertical, Paperclip, Star } from 'lucide-react'
+import { useState } from 'react'
+import { ChevronUp, Folder, MoreVertical, Paperclip, Star } from 'lucide-react'
 
 const messages = [
   {
@@ -67,6 +68,8 @@ function MessageBubble({ message }) {
 }
 
 export default function ChatPanel() {
+  const [fileOpen, setFileOpen] = useState(false)
+
   return (
     <section className="flex min-w-0 flex-1 flex-col rounded-2xl bg-[#121212]">
       <header className="flex items-center gap-3 p-4">
@@ -82,15 +85,36 @@ export default function ChatPanel() {
         </div>
       </header>
 
-      <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 py-4">
-        {messages.map((message) =>
-          message.divider ? (
-            <p key={message.id} className="text-center text-[10px] text-gray-500">
-              {message.divider}
-            </p>
-          ) : (
-            <MessageBubble key={message.id} message={message} />
-          ),
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 py-4">
+          {messages.map((message) =>
+            message.divider ? (
+              <p key={message.id} className="text-center text-[10px] text-gray-500">
+                {message.divider}
+              </p>
+            ) : (
+              <MessageBubble key={message.id} message={message} />
+            ),
+          )}
+        </div>
+
+        {fileOpen && (
+          <div
+            className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 px-10 py-6"
+            onClick={() => setFileOpen(false)}
+          >
+            <div
+              className="flex aspect-square w-full max-w-md flex-col items-center justify-center gap-4 rounded-3xl bg-[#1c1c1c]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Folder size={44} strokeWidth={1.5} className="text-gray-300" />
+              <p className="text-center text-sm leading-relaxed text-gray-300">
+                Drag And Drop
+                <br />
+                File
+              </p>
+            </div>
+          </div>
         )}
       </div>
 
@@ -101,7 +125,12 @@ export default function ChatPanel() {
             placeholder="Write a messege......."
             className="min-w-0 flex-1 bg-transparent text-sm text-gray-200 placeholder-gray-500 outline-none"
           />
-          <Paperclip size={16} className="shrink-0 text-gray-400" />
+          <button
+            onClick={() => setFileOpen((open) => !open)}
+            className="shrink-0 text-gray-400 transition-colors hover:text-white"
+          >
+            <Paperclip size={16} />
+          </button>
           <button className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#7c4dff] text-white transition-colors hover:bg-[#6a3fe0]">
             <ChevronUp size={16} />
           </button>
