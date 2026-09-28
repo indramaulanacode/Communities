@@ -5,12 +5,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Diamond,
+  Eye,
+  Heart,
   Layers,
   LayoutGrid,
   MessageCircle,
   MessageSquare,
   Send,
   Star,
+  TrendingUp,
   Triangle,
   Users,
 } from 'lucide-react'
@@ -535,6 +538,107 @@ function CollectionsCard() {
   )
 }
 
+function InsightsCard() {
+  const metrics = [
+    { label: 'Reach', value: '24.8K', delta: '+12%', icon: Eye, color: 'text-[#2e7cf6]' },
+    { label: 'Engagement', value: '6.4K', delta: '+8%', icon: Heart, color: 'text-[#f4436c]' },
+    { label: 'Growth', value: '1.2K', delta: '+24%', icon: TrendingUp, color: 'text-[#22c55e]' },
+  ]
+  const bars = [
+    { day: 'Mo', v: 42 },
+    { day: 'Tu', v: 68 },
+    { day: 'We', v: 55 },
+    { day: 'Th', v: 80 },
+    { day: 'Fr', v: 63 },
+    { day: 'Sa', v: 92 },
+    { day: 'Su', v: 74 },
+  ]
+  const [metric, setMetric] = useState(0)
+  const [bar, toggleBar] = useActive(5)
+  const [action, toggleAction] = useActive()
+  const active = metrics[metric]
+
+  return (
+    <Card>
+      <CardHeader label="My Genius" title="Activity Insights" />
+
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        {metrics.map((m, i) => {
+          const Icon = m.icon
+          const on = metric === i
+          return (
+            <button
+              key={m.label}
+              onClick={() => setMetric(i)}
+              className={`flex flex-col gap-1 rounded-lg p-2.5 text-left transition-colors ${
+                on ? 'bg-[#262626] ring-1 ring-[#2e7cf6]' : 'bg-[#1e1e1e] hover:bg-[#262626]'
+              }`}
+            >
+              <Icon size={13} className={m.color} />
+              <span className="text-sm font-medium text-white">{m.value}</span>
+              <span className="text-[9px] text-gray-500">{m.label}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      <div className="mt-4 rounded-lg bg-[#1e1e1e] p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] text-gray-300">
+            Weekly {active.label.toLowerCase()}
+          </span>
+          <span className={`flex items-center gap-1 text-[10px] ${active.color}`}>
+            <TrendingUp size={11} />
+            {active.delta}
+          </span>
+        </div>
+        <div className="mt-3 flex h-28 gap-2">
+          {bars.map((b, i) => {
+            const on = bar === i
+            return (
+              <button
+                key={b.day}
+                onClick={() => toggleBar(i)}
+                aria-pressed={on}
+                className="flex h-full flex-1 flex-col items-center gap-1.5"
+              >
+                <span className="flex w-full flex-1 items-end">
+                  <span
+                    className={`w-full rounded-t-md transition-all ${
+                      on
+                        ? 'bg-gradient-to-t from-[#2e7cf6] to-[#7c4dff]'
+                        : 'bg-[#2a2a2a] hover:bg-[#3a3a3a]'
+                    }`}
+                    style={{ height: `${b.v}%` }}
+                  />
+                </span>
+                <span className={`text-[9px] ${on ? 'text-white' : 'text-gray-500'}`}>
+                  {b.day}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        {['View report', 'Export'].map((label, i) => (
+          <button
+            key={label}
+            onClick={() => toggleAction(i)}
+            className={`flex items-center justify-center gap-2 rounded-lg py-2.5 text-[11px] transition-colors ${
+              action === i ? 'bg-[#262626] text-white' : 'bg-[#1e1e1e] text-gray-200 hover:bg-[#262626]'
+            }`}
+          >
+            <Send size={12} className="text-[#7c4dff]" />
+            {label}
+          </button>
+        ))}
+      </div>
+    </Card>
+  )
+}
+
 export default function Dashboard({ onNavigate }) {
   return (
     <div className="min-w-0 flex-1 overflow-auto">
@@ -553,6 +657,7 @@ export default function Dashboard({ onNavigate }) {
           <div className="flex flex-col gap-4">
             <ShowcaseEntriesCard />
             <ShowcaseRowsCard />
+            <InsightsCard />
           </div>
           <div className="flex flex-col gap-4">
             <JobDeskCard />
