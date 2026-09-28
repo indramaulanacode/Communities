@@ -15,7 +15,7 @@ export default function App() {
         {page === 'community' && <CommunityPage />}
         {page === 'chats' && <ChatsPage />}
         {page === 'task' && <TaskPage />}
-        {page === 'dashboard' && <Dashboard />}
+        {page === 'dashboard' && <Dashboard onNavigate={setPage} />}
       </div>
     </div>
   )
