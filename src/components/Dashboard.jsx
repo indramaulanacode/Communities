@@ -642,24 +642,24 @@ function InsightsCard() {
 export default function Dashboard({ onNavigate }) {
   return (
     <div className="min-w-0 flex-1 overflow-auto">
-      <div className="flex w-full flex-col gap-4">
-        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 xl:grid-cols-[16rem_minmax(24rem,1fr)_14rem_15rem]">
-          <div className="flex flex-col gap-4">
+      <div className="flex w-full flex-col gap-4 2xl:gap-6">
+        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-[16rem_minmax(24rem,1fr)_14rem_15rem] 2xl:grid-cols-4 2xl:gap-6">
+          <div className="flex flex-col gap-4 2xl:gap-6">
             <TechArsenal onNavigate={onNavigate} />
             <CommunityCard onNavigate={onNavigate} />
             <CalendarCard />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 2xl:gap-6">
             <TaskCard />
             <ProfileInfoCard />
             <ShowcaseTilesCard />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 2xl:gap-6">
             <ShowcaseEntriesCard />
             <ShowcaseRowsCard />
             <InsightsCard />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 2xl:gap-6">
             <JobDeskCard />
             <CollectionsCard />
           </div>

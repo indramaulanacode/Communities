@@ -17,8 +17,13 @@ const subtitles = [
   'Moderator',
   'Shared a resource',
   'Active 4 min ago',
+  'Sent an attachment',
+  'Voice call missed',
+  'Replied in #general',
+  'Typing…',
+  'Left a voice note',
 ]
-const dates = ['06/07/24', '06/08/24', '05/21/24', '06/01/24', '04/17/24']
+const dates = ['06/07/24', '06/08/24', '05/21/24', '06/01/24', '04/17/24', '06/09/24', '03/30/24', '05/02/24']
 
 const makeChats = (start, count) =>
   Array.from({ length: count }, (_, i) => {
@@ -31,11 +36,11 @@ const makeChats = (start, count) =>
     }
   })
 
-const MAX_CHATS = 28
+const MAX_CHATS = 60
 
 export default function PersonalChatsList({ onSelect }) {
   const [activeId, setActiveId] = useState(null)
-  const [chats, setChats] = useState(() => makeChats(0, 7))
+  const [chats, setChats] = useState(() => makeChats(0, 12))
   const [query, setQuery] = useState('')
   const [starredOnly, setStarredOnly] = useState(false)
   const [starred, setStarred] = useState(() => new Set())

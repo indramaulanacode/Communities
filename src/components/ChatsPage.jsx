@@ -8,7 +8,7 @@ export default function ChatsPage() {
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto lg:flex-row lg:overflow-visible">
       <PersonalChatsList onSelect={setActiveChat} />
-      <ChatPanel chat={activeChat} />
+      <ChatPanel chat={activeChat} variant="chats" />
     </div>
   )
 }

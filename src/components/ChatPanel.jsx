@@ -41,7 +41,28 @@ const initialMessages = [
   },
 ]
 
-function MessageBubble({ message }) {
+function MessageBubble({ message, variant }) {
+  if (variant === 'chats') {
+    if (message.own) {
+      return (
+        <div className="flex items-end justify-end gap-3">
+          <div className="max-w-md whitespace-pre-line rounded-xl bg-[#f4436c] px-5 py-3 text-sm leading-relaxed text-white">
+            {message.text}
+          </div>
+          <div className="size-8 shrink-0 rounded-full bg-[#e9e9e9]" />
+        </div>
+      )
+    }
+    return (
+      <div className="flex items-end gap-3">
+        <div className="size-8 shrink-0 rounded-md bg-[#e9e9e9]" />
+        <div className="max-w-md whitespace-pre-line rounded-xl bg-[#1e1e1e] px-5 py-3 text-sm leading-relaxed text-gray-200">
+          {message.text}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       {message.sender && (
@@ -67,7 +88,7 @@ function MessageBubble({ message }) {
   )
 }
 
-export default function ChatPanel({ chat }) {
+export default function ChatPanel({ chat, variant }) {
   const [fileOpen, setFileOpen] = useState(false)
   const [messages, setMessages] = useState(initialMessages)
   const [draft, setDraft] = useState('')
@@ -132,7 +153,7 @@ export default function ChatPanel({ chat }) {
                 {message.divider}
               </p>
             ) : (
-              <MessageBubble key={message.id} message={message} />
+              <MessageBubble key={message.id} message={message} variant={variant} />
             ),
           )}
         </div>
