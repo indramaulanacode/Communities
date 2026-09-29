@@ -85,11 +85,8 @@ export default function Sidebar({ activePage, onNavigate }) {
           Add Account
         </button>
         <button
-          onClick={() => setSignOutPressed((p) => !p)}
-          aria-pressed={signOutPressed}
-          className={`w-full rounded-md py-2 text-sm font-medium text-white transition-colors ${
-            signOutPressed ? 'bg-[#a3264a] ring-1 ring-[#f4436c]' : 'bg-[#f4436c] hover:bg-[#d93a60]'
-          }`}
+          onClick={() => onNavigate('signup')}
+          className="w-full rounded-md bg-[#f4436c] py-2 text-sm font-medium text-white transition-colors hover:bg-[#d93a60]"
         >
           Sign Out
         </button>

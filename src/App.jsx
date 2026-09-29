@@ -7,9 +7,12 @@ import ChatsPage from './components/ChatsPage.jsx'
 import TaskPage from './components/TaskPage.jsx'
 import PeoplePage from './components/PeoplePage.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
+import SignupPage from './components/SignupPage.jsx'
 
 export default function App() {
   const [page, setPage] = useState('dashboard')
+
+  if (page === 'signup') return <SignupPage onNavigate={setPage} />
 
   return (
     <div className="h-screen bg-[#0a0a0a] p-3 font-sans antialiased">
